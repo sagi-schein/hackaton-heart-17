@@ -33,7 +33,7 @@ class Pyramid2arr:
         
         # precompute indices of each band
         offsets = np.cumsum([0] + sizes)
-        self._indices = zip(offsets[:-1], offsets[1:], shapes)
+        self._indices = list(zip(offsets[:-1], offsets[1:], shapes))
 
     def p2a(self, coeff):
         """
@@ -58,11 +58,12 @@ class Pyramid2arr:
 
         # create iterator that convert array to images
         it = (np.reshape(bandArray[istart:iend], size) for (istart,iend,size) in self._indices)
-        
-        coeffs = [it.next()]
-        for lvl in self.levels:
-            coeffs.append([it.next() for band in self.bands])
-        coeffs.append(it.next())
-
+        try:
+            coeffs = [it.__next__()]
+            for lvl in self.levels:
+                coeffs.append([it.__next__() for band in self.bands])
+            coeffs.append(it.__next__())
+        except:
+            coeffs = []
         return coeffs
 
