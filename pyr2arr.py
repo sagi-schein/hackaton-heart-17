@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Dec 21 18:19:12 2015
-
+ready
 @author: jkooij
 """
 
